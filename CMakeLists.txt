@@ -21,10 +21,10 @@ set(QHotkey_DIR "${QHOTKEY_ROOT}/lib/cmake/QHotkey")
 find_package(QHotkey REQUIRED)
 
 set(QWK_WINDOWBAR_FILES
-    src/qwk_window_bar/windowbar.h      src/qwk_window_bar/windowbar.cpp
-    src/qwk_window_bar/windowbutton.h   src/qwk_window_bar/windowbutton.cpp
-    src/qwk_window_bar/private/windowbar_p.h
-    src/qwk_window_bar/private/windowbutton_p.h
+    src/vendor/qwk/windowbar.h      src/vendor/qwk/windowbar.cpp
+    src/vendor/qwk/windowbutton.h   src/vendor/qwk/windowbutton.cpp
+    src/vendor/qwk/private/windowbar_p.h
+    src/vendor/qwk/private/windowbutton_p.h
 )
 
 set(TRANSLATIONS_FILES
@@ -38,19 +38,22 @@ set(QRC_FILES assets/assets.qrc)
 set(PROJECT_SOURCES
         src/main.cpp
         src/mainwindow.h                            src/mainwindow.cpp
-        src/modules/nav_pages/navpage.h             src/modules/nav_pages/navpage.cpp
-        src/modules/nav_pages/mouseclickpage.h      src/modules/nav_pages/mouseclickpage.cpp
-        src/modules/nav_pages/beautifycursorpage.h  src/modules/nav_pages/beautifycursorpage.cpp
-        src/modules/nav_pages/settingspage.h        src/modules/nav_pages/settingspage.cpp
-        src/modules/settingsagent.h                 src/modules/settingsagent.cpp
-        src/modules/translationmanager.h            src/modules/translationmanager.cpp
-        src/modules/shared.h                        src/modules/shared.cpp
-        src/modules/hotkeylineedit.h                src/modules/hotkeylineedit.cpp
-        src/modules/messagebox.h                    src/modules/messagebox.cpp
-        src/modules/traymenu.h                      src/modules/traymenu.cpp
-        src/utils/clicker.h                         src/utils/clicker.cpp
-        src/utils/logger.h                          src/utils/logger.cpp
-        src/utils/cursormanager.h                   src/utils/cursormanager.cpp
+        src/ui/pagebase.h                           src/ui/pagebase.cpp
+        src/ui/clickerpage.h                        src/ui/clickerpage.cpp
+        src/ui/cursorpage.h                         src/ui/cursorpage.cpp
+        src/ui/settingspage.h                       src/ui/settingspage.cpp
+        src/ui/button.h
+        src/ui/popupmenu.h
+        src/ui/hotkeyedit.h                         src/ui/hotkeyedit.cpp
+        src/ui/messagebox.h                         src/ui/messagebox.cpp
+        src/core/config.h                           src/core/config.cpp
+        src/core/translation.h                      src/core/translation.cpp
+        src/core/clicker.h                          src/core/clicker.cpp
+        src/core/logger.h                           src/core/logger.cpp
+        src/core/cursormanager.h                    src/core/cursormanager.cpp
+        src/theme/tokens.h
+        src/theme/themestate.h                      src/theme/themestate.cpp
+        src/theme/sepproxystyle.h                   src/theme/sepproxystyle.cpp
         ${CMAKE_BINARY_DIR}/resources.rc
         ${QWK_WINDOWBAR_FILES}
         ${TRANSLATIONS_FILES}
@@ -99,6 +102,8 @@ target_link_libraries(${PROJECT_NAME} PRIVATE QWindowKit::Widgets)
 
 target_include_directories(${PROJECT_NAME} PRIVATE "${QHOTKEY_ROOT}/include")
 target_link_libraries(${PROJECT_NAME} PRIVATE qhotkey)
+
+target_include_directories(${PROJECT_NAME} PRIVATE "${CMAKE_SOURCE_DIR}/src")
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an

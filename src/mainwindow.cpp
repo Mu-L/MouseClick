@@ -5,12 +5,12 @@
 #include <QCloseEvent>
 #include <QCoreApplication>
 #include <QEvent>
-#include <QFile>
 #include <QGuiApplication>
 #include <QMessageBox>
 #include <QSettings>
 #include <QTimer>
 #include <QHBoxLayout>
+#include <QFrame>
 #include <QLabel>
 #include <QButtonGroup>
 #include <QDesktopServices>
@@ -18,23 +18,20 @@
 #include <QStackedWidget>
 #include <QThread>
 #include <QTime>
-#include <QTreeWidget>
 #include <QUrl>
+#include <QMenu>
 
 #include <QWKWidgets/widgetwindowagent.h>
-#include "modules/nav_pages/beautifycursorpage.h"
-#include "qwk_window_bar/windowbar.h"
-#include "qwk_window_bar/windowbutton.h"
+#include "ui/cursorpage.h"
+#include "vendor/qwk/windowbar.h"
+#include "vendor/qwk/windowbutton.h"
 
-#include "modules/nav_pages/mouseclickpage.h"
-#include "modules/nav_pages/settingspage.h"
-#include "modules/settingsagent.h"
-#include "modules/traymenu.h"
-
-QMap<Theme::ThemeMode, QString> MainWindow::_theme_files {
-    {Theme::Light, (":/qss/light-style.qss")},
-    {Theme::Dark, (":/qss/dark-style.qss")}
-};
+#include "ui/clickerpage.h"
+#include "ui/settingspage.h"
+#include "core/config.h"
+#include "ui/button.h"
+#include "ui/popupmenu.h"
+#include "theme/themestate.h"
 
 static inline void emulateLeaveEvent(QWidget* widget)
 {
@@ -77,10 +74,12 @@ static inline void emulateLeaveEvent(QWidget* widget)
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
 {
-    SettingsAgent& app_settings = SettingsAgent::instance();
+    Config& app_settings = Config::instance();
 
     setWindowState(app_settings.WindowState());
-    loadThemeStyelSheet(app_settings.ThemeMode());
+
+    // 初始�?ThemeState 并同步到 Config 的主题状�?
+    ThemeState::instance().setDarkMode(app_settings.ThemeMode() == Theme::Dark);
 
     /******************/
 
@@ -90,13 +89,13 @@ MainWindow::MainWindow(QWidget* parent)
 
     UIWidgetInit();
 
-    // 连点运行时禁用页面内容区（导航栏保持可交互），最小化至系统托盘 / 恢复窗口
+    // 连点运行时禁用页面内容区（导航栏保持可交互），最小化至系统托�?/ 恢复窗口
     connect(_settings_page, &SettingsPage::hotkeyActivated, this, [this]() {
-        bool running = NavPage::clickerThread()->isRunning();
+        bool running = PageBase::clickerThread()->isRunning();
         _navigation_pages->setEnabled(!running);
 
         if (running) {
-            // 连点已启动：最小化到系统托盘
+            // 连点已启动：最小化到系统托�?
             _was_maximized_before_tray = isMaximized();
             _was_hidden_before_clicker = !isVisible();
             hide();
@@ -108,7 +107,7 @@ MainWindow::MainWindow(QWidget* parent)
                     3000);
             }
         } else {
-            // 连点已停止：仅在启动前为显示状态时才恢复窗口
+            // 连点已停止：仅在启动前为显示状态时才恢复窗�?
             if (!_was_hidden_before_clicker) {
                 if (_was_maximized_before_tray) {
                     showMaximized();
@@ -148,25 +147,20 @@ void MainWindow::windowInit(const QString& title, const QIcon& icon)
     titlebar_label->setObjectName(QStringLiteral("titlebar-label"));
     titlebar_label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 
-    QWK::WindowButton* icon_btn = new QWK::WindowButton();
+    QWK::WindowButton* icon_btn = new IconButton();
     icon_btn->setObjectName(QStringLiteral("titlebar-icon-button"));
     icon_btn->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    icon_btn->setIconNormal(icon);
 
-    QWK::WindowButton* min_btn = new QWK::WindowButton();
+    QWK::WindowButton* min_btn = new MinimizeButton();
     min_btn->setObjectName(QStringLiteral("titlebar-min-button"));
-    min_btn->setProperty("system-button", true);
     min_btn->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 
-    QWK::WindowButton* max_btn = new QWK::WindowButton();
-    max_btn->setCheckable(true);
+    QWK::WindowButton* max_btn = new MaximizeButton();
     max_btn->setObjectName(QStringLiteral("titlebar-max-button"));
-    max_btn->setProperty("system-button", true);
     max_btn->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 
-    QWK::WindowButton* close_btn = new QWK::WindowButton();
+    QWK::WindowButton* close_btn = new CloseButton();
     close_btn->setObjectName(QStringLiteral("titlebar-close-button"));
-    close_btn->setProperty("system-button", true);
     close_btn->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 
     QWK::WindowBar* titlebar = new QWK::WindowBar();
@@ -221,14 +215,6 @@ void MainWindow::windowInit(const QString& title, const QIcon& icon)
     setWindowIcon(icon);
 }
 
-void MainWindow::loadThemeStyelSheet(Theme::ThemeMode theme)
-{
-    QFile style_file(_theme_files[theme]);
-    if (style_file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        setStyleSheet(QString::fromUtf8(style_file.readAll()));
-    }
-}
-
 void MainWindow::UIWidgetInit()
 {
     QWidget* central_widget = new QWidget(this);
@@ -236,31 +222,31 @@ void MainWindow::UIWidgetInit()
     central_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     QHBoxLayout* central_layout = new QHBoxLayout(central_widget);
     central_layout->setSpacing(0);
-    central_layout->setContentsMargins(QMargins(8, 8, 8, 8));
+    central_layout->setContentsMargins(QMargins(0, 4, 8, 8));
 
-    QTreeWidget* navigation = new QTreeWidget(central_widget);
+    // ── side-nav：QWidget + QVBoxLayout 替代 QTreeWidget ──
+    // QTreeWidget + setItemWidget() 的行布局管线�?itemWidget 完全封闭�?
+    //   - updateGeometries() 始终�?widget resize �?visualRect �?填满整行
+    //   - �?API 可控�?行内 margin"
+    // QVBoxLayout 直接控制间距，无需对抗任何内部机制�?
+    QWidget* navigation = new QWidget(central_widget);
     navigation->setObjectName(QStringLiteral("side-nav"));
     navigation->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     navigation->setMaximumWidth(240);
-    navigation->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    navigation->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    navigation->setHeaderHidden(true);
-    navigation->setIndentation(0);
-    navigation->setColumnCount(1);
-
-    QTreeWidgetItem* mouse_click_item = new QTreeWidgetItem(navigation);
-    QTreeWidgetItem* beautify_cursor_item = new QTreeWidgetItem(navigation);
-    QTreeWidgetItem* settings_item = new QTreeWidgetItem(navigation);
+    QVBoxLayout* nav_layout = new QVBoxLayout(navigation);
+    nav_layout->setContentsMargins(12, 12, 12, 12);  // Design Token 标准间距 12px
+    nav_layout->setSpacing(4);                        // button 间距保持不变
 
     QButtonGroup* navigation_item_btn_group = new QButtonGroup(navigation);
+    navigation_item_btn_group->setExclusive(true); // 互斥：同一时刻仅一个按�?checked
 
     const QString mouse_click_page_title = tr("Mouse Click");
     const QString beautify_cursor_page_title = tr("Beautify Cursor");
     const QString settings_page_title = tr("Settings");
 
-    _nav_mouse_click = new QPushButton(mouse_click_page_title, navigation);
-    _nav_beautify_cursor = new QPushButton(beautify_cursor_page_title, navigation);
-    _nav_settings = new QPushButton(settings_page_title, navigation);
+    _nav_mouse_click = new NavButton(mouse_click_page_title, navigation);
+    _nav_beautify_cursor = new NavButton(beautify_cursor_page_title, navigation);
+    _nav_settings = new NavButton(settings_page_title, navigation);
 
     _nav_mouse_click->setCheckable(true);
     _nav_beautify_cursor->setCheckable(true);
@@ -270,27 +256,42 @@ void MainWindow::UIWidgetInit()
     _nav_beautify_cursor->setObjectName(QStringLiteral("nav-item-beautify-cursor"));
     _nav_settings->setObjectName(QStringLiteral("nav-item-settings"));
 
-    navigation_item_btn_group->addButton(_nav_mouse_click);
-    navigation_item_btn_group->addButton(_nav_beautify_cursor);
-    navigation_item_btn_group->addButton(_nav_settings);
+    // 导航图标（基础文件名，不含路径�?-black/-white 后缀�?
+    _nav_mouse_click->setNavIcon(QStringLiteral("mouse-click-item"));
+    _nav_beautify_cursor->setNavIcon(QStringLiteral("beautify-cursor-item"));
+    _nav_settings->setNavIcon(QStringLiteral("settings-item"));
 
-    navigation->setItemWidget(mouse_click_item, 0, _nav_mouse_click);
-    navigation->setItemWidget(beautify_cursor_item, 0, _nav_beautify_cursor);
-    navigation->setItemWidget(settings_item, 0, _nav_settings);
+    navigation_item_btn_group->addButton(_nav_mouse_click, 0);
+    navigation_item_btn_group->addButton(_nav_beautify_cursor, 1);
+    navigation_item_btn_group->addButton(_nav_settings, 2);
+
+    nav_layout->addWidget(_nav_mouse_click);
+    nav_layout->addWidget(_nav_beautify_cursor);
+    nav_layout->addWidget(_nav_settings);
+    nav_layout->addStretch();  // 按钮靠上对齐
 
     // set Default selected
     _nav_mouse_click->setChecked(true);
-    navigation->setCurrentItem(mouse_click_item);
 
-    QStackedWidget* navigation_pages = new QStackedWidget(central_widget);
-    navigation_pages->setObjectName(QStringLiteral("nav-page"));
+    // ── nav-page 视觉容器：圆角卡片背�?+ 24px 内边�?──
+    // 外层 QFrame 负责视觉效果，QStackedWidget 仅负责页面切换�?
+    // QFrame::StyledPanel 触发 PE_Frame 渲染路径绘制圆角背景�?
+    QFrame* nav_page_card = new QFrame(central_widget);
+    nav_page_card->setObjectName(QStringLiteral("nav-page"));
+    nav_page_card->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    QVBoxLayout* nav_card_layout = new QVBoxLayout(nav_page_card);
+    nav_card_layout->setSpacing(0);
+    nav_card_layout->setContentsMargins(QMargins(24, 24, 24, 24));
+
+    QStackedWidget* navigation_pages = new QStackedWidget();
     navigation_pages->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     navigation_pages->setContentsMargins(QMargins());
+    navigation_pages->setAutoFillBackground(false);
 
     // SettingsPage 需要优先声明，这里的设计以后会改进
     _settings_page = new SettingsPage(settings_page_title, navigation_pages);
-    BeautifyCursorPage* beautify_cursor_page = new BeautifyCursorPage(beautify_cursor_page_title, navigation_pages);
-    MouseClickPage* mouse_click_page = new MouseClickPage(mouse_click_page_title, *_settings_page, navigation_pages);
+    CursorPage* beautify_cursor_page = new CursorPage(beautify_cursor_page_title, navigation_pages);
+    ClickerPage* mouse_click_page = new ClickerPage(mouse_click_page_title, *_settings_page, navigation_pages);
 
     navigation_pages->addWidget(mouse_click_page);
     navigation_pages->addWidget(beautify_cursor_page);
@@ -299,25 +300,43 @@ void MainWindow::UIWidgetInit()
     // set Default page
     navigation_pages->setCurrentIndex(0);
 
-    central_layout->addWidget(navigation);
-    central_layout->addWidget(navigation_pages);
+    _nav_widget = navigation;
 
+    nav_card_layout->addWidget(navigation_pages);
+    central_layout->addWidget(navigation);
+    central_layout->addWidget(nav_page_card);
+
+    _nav_page_card = nav_page_card;
     _navigation_pages = navigation_pages;
 
-    connect(navigation, &QTreeWidget::currentItemChanged, this, [=](QTreeWidgetItem *current, QTreeWidgetItem *previous) {
-        if (current == mouse_click_item) {
-            _nav_mouse_click->setChecked(true);
-            navigation_pages->setCurrentIndex(0);
-        } else if (current == beautify_cursor_item) {
-            _nav_beautify_cursor->setChecked(true);
-            navigation_pages->setCurrentIndex(1);
-        } else if (current == settings_item) {
-            _nav_settings->setChecked(true);
-            navigation_pages->setCurrentIndex(2);
-        }
-    });
+    // 设置独立于全局 palette �?widget 背景�?
+    applyBackgroundPalettes();
+
+    // QButtonGroup::idClicked 直接传�?button id �?page index 映射
+    connect(navigation_item_btn_group, &QButtonGroup::idClicked,
+            navigation_pages, &QStackedWidget::setCurrentIndex);
 
     setCentralWidget(central_widget);
+}
+
+void MainWindow::applyBackgroundPalettes()
+{
+    const auto& c = ThemeState::instance().current().colors;
+
+    // side-nav：透明背景，显�?MainWindow 底色�?EEEEF2 / #1F1F1F�?
+    if (_nav_widget) {
+        _nav_widget->setAutoFillBackground(false);
+    }
+
+    // nav-page 视觉容器：圆角卡片色背景（light=#FFF, dark=#333, radius=8px�?
+    // PE_Frame 绘制圆角矩形背景。autoFillBackground 必须�?false，否则会�?
+    // 纯色矩形填充整个 QFrame，覆盖圆角外�?透明"区域→圆角视觉消失�?
+    // StyledPanel 保证 PE_Frame 一定被触发绘制�?
+    if (_nav_page_card) {
+        _nav_page_card->setFrameShape(QFrame::StyledPanel);
+        _nav_page_card->setAutoFillBackground(false);
+        _nav_page_card->update();
+    }
 }
 
 void MainWindow::retranslateUi()
@@ -352,9 +371,17 @@ void MainWindow::changeEvent(QEvent *event)
 
 void MainWindow::connectInit()
 {
-    connect(&SettingsAgent::instance(), &SettingsAgent::currentThemeChanged, this, &MainWindow::loadThemeStyelSheet);
-    connect(&SettingsAgent::instance(), &SettingsAgent::currentThemeChanged, this, &MainWindow::applyTrayMenuStyle);
-    connect(this, &MainWindow::windowStateChanged, &SettingsAgent::instance(), &SettingsAgent::setWindowState);
+    // 主题切换：Config（持久化）→ ThemeState（QStyle 运行时）
+    connect(&Config::instance(), &Config::currentThemeChanged,
+            this, [](Theme::ThemeMode mode) {
+        ThemeState::instance().setDarkMode(mode == Theme::Dark);
+    });
+
+    // 主题切换后重新应用独立于全局 palette �?widget 背景�?
+    connect(&ThemeState::instance(), &ThemeState::themeChanged,
+            this, &MainWindow::applyBackgroundPalettes);
+
+    connect(this, &MainWindow::windowStateChanged, &Config::instance(), &Config::setWindowState);
 }
 
 MainWindow::~MainWindow()
@@ -377,19 +404,19 @@ void MainWindow::closeEvent(QCloseEvent *event)
         return;
     }
 
-    if (SettingsAgent::instance().CloseButtonBehavior() == "minimize") {
-        // 最小化至系统托盘
+    if (Config::instance().CloseButtonBehavior() == "minimize") {
+        // 最小化至系统托�?
         _was_maximized_before_tray = isMaximized();
         hide();
         event->ignore();
     } else {
-        // 正常退出
+        // 正常退�?
         event->accept();
         // 停止连点（如果正在运行）
-        if (NavPage::clickerThread()->isRunning()) {
-            NavPage::clicker()->stop();
-            NavPage::clickerThread()->quit();
-            NavPage::clickerThread()->wait();
+        if (PageBase::clickerThread()->isRunning()) {
+            PageBase::clicker()->stop();
+            PageBase::clickerThread()->quit();
+            PageBase::clickerThread()->wait();
         }
         QApplication::quit();
     }
@@ -404,7 +431,7 @@ void MainWindow::setupSystemTray()
     _tray_icon = new QSystemTrayIcon(QIcon(":/svg/favicon.svg"), this);
     _tray_icon->setToolTip(tr("MouseClick"));
 
-    _tray_menu = new TrayMenu(this);
+    _tray_menu = new PopupMenu(this);
 
     _tray_open_action = _tray_menu->addAction(tr("Open Main Interface"));
     _tray_menu->addSeparator();
@@ -412,11 +439,7 @@ void MainWindow::setupSystemTray()
     _tray_menu->addSeparator();
     _tray_exit_action = _tray_menu->addAction(tr("Exit"));
 
-    // 不使用 setContextMenu()，改用 popup() 手动弹出 Qt 渲染菜单，
-    // 以便 QSS 样式（深色/浅色主题）能正确应用到菜单背景与文字
-    applyTrayMenuStyle();
-
-    // 托盘图标交互：左键/双击恢复窗口，右键弹出菜单
+    // 托盘图标交互：左�?双击恢复窗口，右键弹出菜�?
     connect(_tray_icon, &QSystemTrayIcon::activated, this,
             [this](QSystemTrayIcon::ActivationReason reason) {
         if (reason == QSystemTrayIcon::Trigger ||
@@ -433,7 +456,7 @@ void MainWindow::setupSystemTray()
         }
     });
 
-    // 打开主界面
+    // 打开主界�?
     connect(_tray_open_action, &QAction::triggered, this, [this]() {
         if (_was_maximized_before_tray) {
             showMaximized();
@@ -450,27 +473,17 @@ void MainWindow::setupSystemTray()
             QUrl("https://github.com/SeaEpoch/MouseClick"));
     });
 
-    // 退出
+    // 退�?
     connect(_tray_exit_action, &QAction::triggered, this, [this]() {
         _force_quit = true;
         // 停止连点（如果正在运行）
-        if (NavPage::clickerThread()->isRunning()) {
-            NavPage::clicker()->stop();
-            NavPage::clickerThread()->quit();
-            NavPage::clickerThread()->wait();
+        if (PageBase::clickerThread()->isRunning()) {
+            PageBase::clicker()->stop();
+            PageBase::clickerThread()->quit();
+            PageBase::clickerThread()->wait();
         }
         qApp->quit();
     });
 
     _tray_icon->show();
-}
-
-void MainWindow::applyTrayMenuStyle()
-{
-    if (!_tray_menu) {
-        return;
-    }
-
-    bool is_dark = SettingsAgent::instance().ThemeMode() == Theme::Dark;
-    _tray_menu->setDarkMode(is_dark);
 }

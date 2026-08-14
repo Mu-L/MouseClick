@@ -1,23 +1,24 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "modules/shared.h"
+#include "theme/themestate.h"
 
 #include <QMainWindow>
 #include <QPushButton>
 #include <QSystemTrayIcon>
+
+class NavButton;
+class PopupMenu;
+class QFrame;
 
 namespace QWK
 {
     class WidgetWindowAgent;
 }
 
-template <class Key, class T> class QMap;
-
 class QStackedWidget;
 class SettingsPage;
 class QAction;
-class TrayMenu;
 
 class MainWindow : public QMainWindow
 {
@@ -39,14 +40,14 @@ private:
     Q_DISABLE_COPY_MOVE(MainWindow)
 
     QWK::WidgetWindowAgent* _window_agent;
-    static QMap<Theme::ThemeMode, QString> _theme_files;
 
     SettingsPage* _settings_page = nullptr;
     QStackedWidget* _navigation_pages = nullptr;
+    QFrame* _nav_page_card = nullptr;  // QFrame wrapper for nav-page visual styling
 
     // 系统托盘
     QSystemTrayIcon* _tray_icon = nullptr;
-    TrayMenu* _tray_menu = nullptr;
+    PopupMenu* _tray_menu = nullptr;
     QAction* _tray_open_action = nullptr;
     QAction* _tray_website_action = nullptr;
     QAction* _tray_exit_action = nullptr;
@@ -55,16 +56,17 @@ private:
     bool _was_hidden_before_clicker = false;
 
     // 导航按钮（语言切换需要重新设置文本）
-    QPushButton* _nav_mouse_click;
-    QPushButton* _nav_beautify_cursor;
-    QPushButton* _nav_settings;
+    NavButton* _nav_mouse_click;
+    NavButton* _nav_beautify_cursor;
+    NavButton* _nav_settings;
+
+    QWidget* _nav_widget = nullptr;  // QVBoxLayout + QButtonGroup，替代原 QTreeWidget
 
     void windowInit(const QString& title, const QIcon& icon);
-    void loadThemeStyelSheet(Theme::ThemeMode theme);
     void UIWidgetInit();
     void connectInit();
+    void applyBackgroundPalettes();
     void setupSystemTray();
-    void applyTrayMenuStyle();
     void retranslateUi();
 };
 
