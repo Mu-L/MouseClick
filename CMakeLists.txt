@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.9)
+﻿cmake_minimum_required(VERSION 3.9)
 
 project(MouseClick VERSION 3.0.1 LANGUAGES CXX)
 
@@ -96,6 +96,10 @@ else()
 endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+
+# 应用接管窗口系统边框颜色：QApplication::setPalette 会触发 Qt 把 DWM 边框重置为浅色，
+# 需通过 DwmSetWindowAttribute 显式让边框跟随应用主题（见 mainwindow.cpp 的 applyDarkFrameColor）
+target_link_libraries(${PROJECT_NAME} PRIVATE dwmapi)
 
 target_include_directories(${PROJECT_NAME} PRIVATE "${QWINDOWKIT_ROOT}/include/QWindowKit::Widgets")
 target_link_libraries(${PROJECT_NAME} PRIVATE QWindowKit::Widgets)

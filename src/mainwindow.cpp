@@ -21,6 +21,8 @@
 #include <QUrl>
 #include <QMenu>
 
+#include <dwmapi.h>
+
 #include <QWKWidgets/widgetwindowagent.h>
 #include "ui/cursorpage.h"
 #include "vendor/qwk/windowbar.h"
@@ -68,6 +70,26 @@ static inline void emulateLeaveEvent(QWidget* widget)
             }
         }
     });
+}
+
+// Qt 6.7.3 的 QWindowsWindow::setDarkBorder 在收到 ApplicationPaletteChange 时，
+// 会把 DWMWA_USE_IMMERSIVE_DARK_MODE 重置为浅色（shouldApplyDarkFrame 读不到
+// widget 窗口的 palette，恒判为浅色），从而把 QWindowKit 露出的 1px 顶部边框刷白。
+// 这里由应用接管，始终恢复深色边框，与 QWindowKit 的 dark-mode=true 默认一致：
+// 若改成跟随 app 主题（浅色主题→浅色边框），浅色主题下仍会露出白色边框。
+static void applyDarkFrameColor(HWND hwnd, bool dark)
+{
+    // MinGW 的 dwmapi.h 未定义沉浸式深色模式属性，这里显式声明。
+    constexpr DWORD immersiveDarkMode = 20;        // DWMWA_USE_IMMERSIVE_DARK_MODE
+    constexpr DWORD immersiveDarkModeLegacy = 19;  // DWMWA_USE_IMMERSIVE_DARK_MODE_BEFORE_20H1
+
+    const BOOL value = dark ? TRUE : FALSE;
+    if (FAILED(DwmSetWindowAttribute(hwnd, immersiveDarkMode, &value, sizeof(value))))
+        DwmSetWindowAttribute(hwnd, immersiveDarkModeLegacy, &value, sizeof(value));
+
+    // 通知 DWM 按新属性重绘非客户区边框。
+    SetWindowPos(hwnd, nullptr, 0, 0, 0, 0,
+                 SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE);
 }
 
 
@@ -392,6 +414,13 @@ bool MainWindow::event(QEvent *event)
     if (event->type() == QEvent::WindowStateChange) {
         Qt::WindowStates newState = windowState();
         emit windowStateChanged(newState);
+    }
+    if (event->type() == QEvent::ApplicationPaletteChange) {
+        // 必须排队到 Qt 的 QWindowsWindow::setDarkBorder 之后执行，否则会被它覆盖回浅色。
+        // 始终设为深色（DWMWA=1），与 QWindowKit 的 dark-mode=true 默认一致，避免浅色主题露白边。
+        QTimer::singleShot(0, this, [this]() {
+            applyDarkFrameColor(reinterpret_cast<HWND>(winId()), true);
+        });
     }
     return QWidget::event(event); // 保留其他事件处理
 }
