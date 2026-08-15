@@ -187,7 +187,10 @@ System default cursor restored.</source>
 The program may have been modified.
 It is recommended to reinstall the program,
 which may resolve this issue.</source>
-        <translation type="unfinished"></translation>
+        <translation>配置文件“config.ini”未找到。
+程序可能已被修改。
+建议重新安装程序，
+这可能解决此问题。</translation>
     </message>
     <message>
         <location filename="../src/core/config.cpp" line="141"/>
@@ -256,7 +259,8 @@ which may resolve this issue.</source>
         <location filename="../src/ui/cursorpage.cpp" line="138"/>
         <source>Cursor &apos;%1&apos; is already installed.
 No action needed.</source>
-        <translation type="unfinished"></translation>
+        <translation>光标“%1”已安装。
+无需操作。</translation>
     </message>
     <message>
         <location filename="../src/ui/cursorpage.cpp" line="148"/>
@@ -301,13 +305,15 @@ Please try running the program as Administrator.</source>
         <location filename="../src/ui/cursorpage.cpp" line="175"/>
         <source>Cursor &apos;%1&apos; has not been installed yet.
 Please install it first before applying.</source>
-        <translation type="unfinished"></translation>
+        <translation>光标“%1”尚未安装。
+请先安装后再应用。</translation>
     </message>
     <message>
         <location filename="../src/ui/cursorpage.cpp" line="193"/>
         <source>Cursor &apos;%1&apos; has not been installed.
 Nothing to uninstall.</source>
-        <translation type="unfinished"></translation>
+        <translation>光标“%1”未安装。
+无需卸载。</translation>
     </message>
     <message>
         <location filename="../src/ui/cursorpage.cpp" line="212"/>
@@ -316,7 +322,11 @@ Nothing to uninstall.</source>
 
 This will restore the default Windows cursor theme.
 Are you sure you want to continue?</source>
-        <translation type="unfinished"></translation>
+        <translation>将删除以下项目：
+  - %1
+
+这将恢复默认的 Windows 光标主题。
+是否确定要继续？</translation>
     </message>
     <message>
         <location filename="../src/ui/cursorpage.cpp" line="236"/>
@@ -324,7 +334,10 @@ Are you sure you want to continue?</source>
   - %2
 
 System default cursor restored.</source>
-        <translation type="unfinished"></translation>
+        <translation>光标“%1”已卸载。
+  - %2
+
+系统默认光标已恢复。</translation>
     </message>
     <message>
         <source>Cursor &apos;%1&apos; has not been installed yet. Please install it first before applying.</source>
@@ -397,12 +410,12 @@ System default cursor restored.</source>
         <translation type="obsolete">错误</translation>
     </message>
     <message>
-        <location filename="../src/ui/hotkeyedit.cpp" line="144"/>
+        <location filename="../src/ui/hotkeyedit.cpp" line="113"/>
         <source>Failed to register global hotkey.</source>
         <translation type="unfinished">未能注册全局快捷键。</translation>
     </message>
     <message>
-        <location filename="../src/ui/hotkeyedit.cpp" line="145"/>
+        <location filename="../src/ui/hotkeyedit.cpp" line="114"/>
         <source>OK</source>
         <translation type="unfinished">好的</translation>
     </message>
@@ -429,58 +442,58 @@ System default cursor restored.</source>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="88"/>
-        <location filename="../src/mainwindow.cpp" line="104"/>
-        <location filename="../src/mainwindow.cpp" line="122"/>
-        <location filename="../src/mainwindow.cpp" line="344"/>
-        <location filename="../src/mainwindow.cpp" line="360"/>
-        <location filename="../src/mainwindow.cpp" line="432"/>
+        <location filename="../src/mainwindow.cpp" line="110"/>
+        <location filename="../src/mainwindow.cpp" line="126"/>
+        <location filename="../src/mainwindow.cpp" line="144"/>
+        <location filename="../src/mainwindow.cpp" line="366"/>
+        <location filename="../src/mainwindow.cpp" line="382"/>
+        <location filename="../src/mainwindow.cpp" line="461"/>
         <source>MouseClick</source>
         <translation>鼠标连点器</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="243"/>
-        <location filename="../src/mainwindow.cpp" line="345"/>
+        <location filename="../src/mainwindow.cpp" line="265"/>
+        <location filename="../src/mainwindow.cpp" line="367"/>
         <source>Mouse Click</source>
         <translation>鼠标连点</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="244"/>
-        <location filename="../src/mainwindow.cpp" line="346"/>
+        <location filename="../src/mainwindow.cpp" line="266"/>
+        <location filename="../src/mainwindow.cpp" line="368"/>
         <source>Beautify Cursor</source>
         <translation>美化光标</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="245"/>
-        <location filename="../src/mainwindow.cpp" line="347"/>
+        <location filename="../src/mainwindow.cpp" line="267"/>
+        <location filename="../src/mainwindow.cpp" line="369"/>
         <source>Settings</source>
         <translation>软件设置</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="105"/>
+        <location filename="../src/mainwindow.cpp" line="127"/>
         <source>Clicker started</source>
         <translation type="unfinished">连点已启动</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="123"/>
+        <location filename="../src/mainwindow.cpp" line="145"/>
         <source>Clicker stopped</source>
         <translation type="unfinished">连点已结束</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="351"/>
-        <location filename="../src/mainwindow.cpp" line="436"/>
+        <location filename="../src/mainwindow.cpp" line="373"/>
+        <location filename="../src/mainwindow.cpp" line="465"/>
         <source>Open Main Interface</source>
         <translation type="unfinished">打开主界面</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="354"/>
-        <location filename="../src/mainwindow.cpp" line="438"/>
+        <location filename="../src/mainwindow.cpp" line="376"/>
+        <location filename="../src/mainwindow.cpp" line="467"/>
         <source>Official Website</source>
         <translation type="unfinished">官网</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="357"/>
-        <location filename="../src/mainwindow.cpp" line="440"/>
+        <location filename="../src/mainwindow.cpp" line="379"/>
+        <location filename="../src/mainwindow.cpp" line="469"/>
         <source>Exit</source>
         <translation type="unfinished">退出</translation>
     </message>
@@ -496,22 +509,22 @@ System default cursor restored.</source>
     <message>
         <location filename="../src/ui/messagebox.cpp" line="176"/>
         <source>Information</source>
-        <translation type="unfinished"></translation>
+        <translation>信息</translation>
     </message>
     <message>
         <location filename="../src/ui/messagebox.cpp" line="177"/>
         <source>Warning</source>
-        <translation type="unfinished"></translation>
+        <translation>警告</translation>
     </message>
     <message>
         <location filename="../src/ui/messagebox.cpp" line="178"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>错误</translation>
     </message>
     <message>
         <location filename="../src/ui/messagebox.cpp" line="179"/>
         <source>Question</source>
-        <translation type="unfinished"></translation>
+        <translation>询问</translation>
     </message>
     <message>
         <location filename="../src/ui/messagebox.cpp" line="242"/>
@@ -599,72 +612,71 @@ System default cursor restored.</source>
 <context>
     <name>SettingsPage</name>
     <message>
-        <location filename="../src/ui/settingspage.cpp" line="72"/>
-        <location filename="../src/ui/settingspage.cpp" line="258"/>
+        <location filename="../src/ui/settingspage.cpp" line="77"/>
+        <location filename="../src/ui/settingspage.cpp" line="265"/>
         <source>Start/End Hotkey</source>
         <translation>&quot;开始/结束&quot;快捷键</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingspage.cpp" line="97"/>
-        <location filename="../src/ui/settingspage.cpp" line="259"/>
+        <location filename="../src/ui/settingspage.cpp" line="104"/>
+        <location filename="../src/ui/settingspage.cpp" line="266"/>
         <source>Hotkey Clean</source>
         <translation>清除快捷键</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingspage.cpp" line="113"/>
-        <location filename="../src/ui/settingspage.cpp" line="261"/>
+        <location filename="../src/ui/settingspage.cpp" line="120"/>
+        <location filename="../src/ui/settingspage.cpp" line="267"/>
         <source>Dark Theme</source>
         <translation>深色模式</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingspage.cpp" line="138"/>
-        <location filename="../src/ui/settingspage.cpp" line="262"/>
+        <location filename="../src/ui/settingspage.cpp" line="145"/>
+        <location filename="../src/ui/settingspage.cpp" line="268"/>
         <source>Language</source>
         <translation>语言设置</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingspage.cpp" line="143"/>
-        <location filename="../src/ui/settingspage.cpp" line="271"/>
+        <location filename="../src/ui/settingspage.cpp" line="150"/>
+        <location filename="../src/ui/settingspage.cpp" line="277"/>
         <source>English(United States)</source>
         <translation>English(United States)</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingspage.cpp" line="144"/>
-        <location filename="../src/ui/settingspage.cpp" line="272"/>
+        <location filename="../src/ui/settingspage.cpp" line="151"/>
+        <location filename="../src/ui/settingspage.cpp" line="278"/>
         <source>Chinese(Simplified)</source>
         <translation>中文（简体）</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingspage.cpp" line="145"/>
-        <location filename="../src/ui/settingspage.cpp" line="273"/>
+        <location filename="../src/ui/settingspage.cpp" line="152"/>
+        <location filename="../src/ui/settingspage.cpp" line="279"/>
         <source>Chinese(Traditional)</source>
         <translation>中文（繁體）</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingspage.cpp" line="257"/>
+        <location filename="../src/ui/settingspage.cpp" line="264"/>
         <source>Settings</source>
         <translation type="unfinished">软件设置</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingspage.cpp" line="260"/>
         <source>Please set a shortcut hotkey</source>
-        <translation type="unfinished">请设置一个快捷键</translation>
+        <translation type="obsolete">请设置一个快捷键</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingspage.cpp" line="177"/>
-        <location filename="../src/ui/settingspage.cpp" line="263"/>
+        <location filename="../src/ui/settingspage.cpp" line="184"/>
+        <location filename="../src/ui/settingspage.cpp" line="269"/>
         <source>Close Button Behavior</source>
         <translation type="unfinished">关闭按钮行为</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingspage.cpp" line="182"/>
-        <location filename="../src/ui/settingspage.cpp" line="287"/>
+        <location filename="../src/ui/settingspage.cpp" line="189"/>
+        <location filename="../src/ui/settingspage.cpp" line="293"/>
         <source>Minimize to Tray</source>
         <translation type="unfinished">最小化至托盘</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingspage.cpp" line="183"/>
-        <location filename="../src/ui/settingspage.cpp" line="288"/>
+        <location filename="../src/ui/settingspage.cpp" line="190"/>
+        <location filename="../src/ui/settingspage.cpp" line="294"/>
         <source>Exit Program</source>
         <translation type="unfinished">退出程序</translation>
     </message>

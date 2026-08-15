@@ -6,7 +6,10 @@
 #include <QWidget>
 
 #include "pagebase.h"
-#include "hotkeyedit.h"
+
+class HotkeyCaptureController;
+class HotkeyEdit;
+class QHotkeyRegistrar;
 
 class SettingsPage : public PageBase
 {
@@ -24,6 +27,8 @@ protected:
 private:
     Q_DISABLE_COPY_MOVE(SettingsPage)
 
+    QHotkeyRegistrar* _hotkey_registrar;
+    HotkeyCaptureController* _hotkey_controller;
     HotkeyEdit* _hotkey_reader;
     QPushButton* _hotkey_clean;
 

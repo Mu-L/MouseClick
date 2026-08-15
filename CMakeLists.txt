@@ -51,6 +51,10 @@ set(PROJECT_SOURCES
         src/core/clicker.h                          src/core/clicker.cpp
         src/core/logger.h                           src/core/logger.cpp
         src/core/cursormanager.h                    src/core/cursormanager.cpp
+        src/core/hotkey.h                           src/core/hotkey.cpp
+        src/core/hotkeyregistrar.h
+        src/core/qhotkeyregistrar.h                 src/core/qhotkeyregistrar.cpp
+        src/core/hotkeycapturecontroller.h          src/core/hotkeycapturecontroller.cpp
         src/theme/tokens.h
         src/theme/themestate.h                      src/theme/themestate.cpp
         src/theme/sepproxystyle.h                   src/theme/sepproxystyle.cpp

@@ -61,6 +61,18 @@ QSize SepProxyStyle::sizeFromContents(ContentsType ct, const QStyleOption* opt,
         sz.setHeight(qMax(sz.height(), 32));
         return sz;
     }
+    case CT_LineEdit: {
+        QSize sz = QProxyStyle::sizeFromContents(ct, opt, contentsSize, widget);
+        // 跳过 SpinBox 内部 QLineEdit：其高度由 CC_SpinBox 统一决定，
+        // 与 polish() 中的同名判断保持一致。
+        if (widget) {
+            const QWidget* pw = widget->parentWidget();
+            if (pw && qobject_cast<const QAbstractSpinBox*>(pw))
+                return sz;
+        }
+        sz.setHeight(qMax(sz.height(), 32));
+        return sz;
+    }
     case CT_MenuItem: {
         // 不再委托原生 Windows QStyle，避免其注入 checkmark/箭头
         // 区域空间（~36-40px），使菜单宽度仅由文字内容+padding决定。

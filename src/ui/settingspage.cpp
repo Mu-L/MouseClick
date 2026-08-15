@@ -17,10 +17,15 @@
 
 #include "hotkeyedit.h"
 #include "core/config.h"
+#include "core/hotkey.h"
+#include "core/hotkeycapturecontroller.h"
+#include "core/qhotkeyregistrar.h"
 #include "theme/themestate.h"
 
 SettingsPage::SettingsPage(const QString& title, QWidget* parent)
     : PageBase{parent},
+      _hotkey_registrar(nullptr),
+      _hotkey_controller(nullptr),
       _hotkey_reader(nullptr),
       _hotkey_clean(nullptr),
       _page_title(nullptr),
@@ -71,18 +76,20 @@ SettingsPage::SettingsPage(const QString& title, QWidget* parent)
     _hotkey_desc->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
     _hotkey_desc->setText(tr("Start/End Hotkey"));
 
-    _hotkey_reader = new HotkeyEdit(hotkey_content);
+    // 组装快捷键子系统：注册服务 → 状态机控制器 → 纯 UI 控件
+    _hotkey_registrar = new QHotkeyRegistrar(this);
+    _hotkey_controller = new HotkeyCaptureController(_hotkey_registrar, this);
+
+    _hotkey_reader = new HotkeyEdit(_hotkey_controller, hotkey_content);
     _hotkey_reader->setObjectName(QStringLiteral("hotkey-reader"));
     _hotkey_reader->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 
-    // 设置保存的快捷键（上一次使用）
+    // 加载上次保存的快捷键（空则回退默认），注册成功才写配置
     const QString pre_hotkey = app_settings.Hotkey();
-    if (pre_hotkey.isEmpty()) {
-        _hotkey_reader->setHotkey("Ctrl+F2");   // 默认快捷�?
-    }
-    else {
-        _hotkey_reader->setHotkey(pre_hotkey);  // 上一次使用的快捷�?
-    }
+    const Hotkey initial_hotkey = pre_hotkey.isEmpty()
+        ? Hotkey::fromString(QStringLiteral("Ctrl+F2"))
+        : Hotkey::fromString(pre_hotkey);
+    _hotkey_controller->setHotkey(initial_hotkey);
 
     hotkey_content_layout->addWidget(_hotkey_desc);
     hotkey_content_layout->addWidget(_hotkey_reader);
@@ -213,7 +220,8 @@ SettingsPage::SettingsPage(const QString& title, QWidget* parent)
     /********************/
 
     connect(_hotkey_clean, &QPushButton::clicked, this, [this]() {
-        _hotkey_reader->cleanHotKey();
+        // 永久清除：注销全局热键并同步清空配置
+        _hotkey_controller->clearHotkey();
     });
 
     connect(theme_toggle_btn, &QRadioButton::toggled, this, [this](bool checked) {
@@ -221,13 +229,16 @@ SettingsPage::SettingsPage(const QString& title, QWidget* parent)
         Config::instance().setThemeMode(theme_mode);
     });
 
-    // �?HotkeyEdit 的信号代理为 SettingsPage �?public 信号
-    connect(_hotkey_reader, &HotkeyEdit::hotkeyActivated,
+    // 将控制器的「已触发」信号代理为 SettingsPage 的 public 信号
+    connect(_hotkey_controller, &HotkeyCaptureController::activated,
             this, &SettingsPage::hotkeyActivated);
 
-    connect(_hotkey_reader, &HotkeyEdit::currentHotkeyChanged, this, [](const QString& hotkey) {
-        Config::instance().setHotkey(hotkey);
-    });
+    // 「注册成功才写配置」：仅在提交（成功注册 / 清除 / 程序化设置）时同步持久化；
+    // 取消录制（失焦回退）不触发该信号，避免误点丢失原配置
+    connect(_hotkey_controller, &HotkeyCaptureController::currentHotkeyChanged,
+            this, [](const Hotkey& hotkey) {
+                Config::instance().setHotkey(hotkey.toString());
+            });
 
     connect(_language_list, &QComboBox::currentIndexChanged, this, [=](int index) {
         Config& app_settings = Config::instance();
@@ -246,18 +257,13 @@ SettingsPage::SettingsPage(const QString& title, QWidget* parent)
     });
 }
 
-SettingsPage::~SettingsPage()
-{
-    delete _hotkey_reader;
-    delete _hotkey_clean;
-}
+SettingsPage::~SettingsPage() = default;
 
 void SettingsPage::retranslateUi()
 {
     _page_title->setText(tr("Settings"));
     _hotkey_desc->setText(tr("Start/End Hotkey"));
     _hotkey_clean->setText(tr("Hotkey Clean"));
-    _hotkey_reader->setPlaceholderText(tr("Please set a shortcut hotkey"));
     _theme_toggle_desc->setText(tr("Dark Theme"));
     _language_switch_desc->setText(tr("Language"));
     _close_button_behavior_desc->setText(tr("Close Button Behavior"));

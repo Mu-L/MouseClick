@@ -187,7 +187,10 @@ System default cursor restored.</translation>
 The program may have been modified.
 It is recommended to reinstall the program,
 which may resolve this issue.</source>
-        <translation type="unfinished"></translation>
+        <translation>The configuration file &apos;config.ini&apos; was not found.
+The program may have been modified.
+It is recommended to reinstall the program,
+which may resolve this issue.</translation>
     </message>
     <message>
         <location filename="../src/core/config.cpp" line="141"/>
@@ -256,7 +259,8 @@ which may resolve this issue.</source>
         <location filename="../src/ui/cursorpage.cpp" line="138"/>
         <source>Cursor &apos;%1&apos; is already installed.
 No action needed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cursor &apos;%1&apos; is already installed.
+No action needed.</translation>
     </message>
     <message>
         <location filename="../src/ui/cursorpage.cpp" line="148"/>
@@ -301,13 +305,15 @@ Please try running the program as Administrator.</translation>
         <location filename="../src/ui/cursorpage.cpp" line="175"/>
         <source>Cursor &apos;%1&apos; has not been installed yet.
 Please install it first before applying.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cursor &apos;%1&apos; has not been installed yet.
+Please install it first before applying.</translation>
     </message>
     <message>
         <location filename="../src/ui/cursorpage.cpp" line="193"/>
         <source>Cursor &apos;%1&apos; has not been installed.
 Nothing to uninstall.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cursor &apos;%1&apos; has not been installed.
+Nothing to uninstall.</translation>
     </message>
     <message>
         <location filename="../src/ui/cursorpage.cpp" line="212"/>
@@ -316,7 +322,11 @@ Nothing to uninstall.</source>
 
 This will restore the default Windows cursor theme.
 Are you sure you want to continue?</source>
-        <translation type="unfinished"></translation>
+        <translation>The following items will be removed:
+  - %1
+
+This will restore the default Windows cursor theme.
+Are you sure you want to continue?</translation>
     </message>
     <message>
         <location filename="../src/ui/cursorpage.cpp" line="236"/>
@@ -324,7 +334,10 @@ Are you sure you want to continue?</source>
   - %2
 
 System default cursor restored.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cursor &apos;%1&apos; uninstalled.
+  - %2
+
+System default cursor restored.</translation>
     </message>
     <message>
         <source>Cursor &apos;%1&apos; has not been installed yet. Please install it first before applying.</source>
@@ -397,12 +410,12 @@ System default cursor restored.</source>
         <translation type="obsolete">ERROR</translation>
     </message>
     <message>
-        <location filename="../src/ui/hotkeyedit.cpp" line="144"/>
+        <location filename="../src/ui/hotkeyedit.cpp" line="113"/>
         <source>Failed to register global hotkey.</source>
         <translation type="unfinished">Failed to register global hotkey.</translation>
     </message>
     <message>
-        <location filename="../src/ui/hotkeyedit.cpp" line="145"/>
+        <location filename="../src/ui/hotkeyedit.cpp" line="114"/>
         <source>OK</source>
         <translation type="unfinished">OK</translation>
     </message>
@@ -429,58 +442,58 @@ System default cursor restored.</source>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="88"/>
-        <location filename="../src/mainwindow.cpp" line="104"/>
-        <location filename="../src/mainwindow.cpp" line="122"/>
-        <location filename="../src/mainwindow.cpp" line="344"/>
-        <location filename="../src/mainwindow.cpp" line="360"/>
-        <location filename="../src/mainwindow.cpp" line="432"/>
+        <location filename="../src/mainwindow.cpp" line="110"/>
+        <location filename="../src/mainwindow.cpp" line="126"/>
+        <location filename="../src/mainwindow.cpp" line="144"/>
+        <location filename="../src/mainwindow.cpp" line="366"/>
+        <location filename="../src/mainwindow.cpp" line="382"/>
+        <location filename="../src/mainwindow.cpp" line="461"/>
         <source>MouseClick</source>
         <translation>MouseClick</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="243"/>
-        <location filename="../src/mainwindow.cpp" line="345"/>
+        <location filename="../src/mainwindow.cpp" line="265"/>
+        <location filename="../src/mainwindow.cpp" line="367"/>
         <source>Mouse Click</source>
         <translation>Mouse Click</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="244"/>
-        <location filename="../src/mainwindow.cpp" line="346"/>
+        <location filename="../src/mainwindow.cpp" line="266"/>
+        <location filename="../src/mainwindow.cpp" line="368"/>
         <source>Beautify Cursor</source>
         <translation>Beautify Cursor</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="245"/>
-        <location filename="../src/mainwindow.cpp" line="347"/>
+        <location filename="../src/mainwindow.cpp" line="267"/>
+        <location filename="../src/mainwindow.cpp" line="369"/>
         <source>Settings</source>
         <translation>Settings</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="105"/>
+        <location filename="../src/mainwindow.cpp" line="127"/>
         <source>Clicker started</source>
         <translation type="unfinished">Clicker started</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="123"/>
+        <location filename="../src/mainwindow.cpp" line="145"/>
         <source>Clicker stopped</source>
         <translation type="unfinished">Clicker stopped</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="351"/>
-        <location filename="../src/mainwindow.cpp" line="436"/>
+        <location filename="../src/mainwindow.cpp" line="373"/>
+        <location filename="../src/mainwindow.cpp" line="465"/>
         <source>Open Main Interface</source>
         <translation type="unfinished">Open Main Interface</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="354"/>
-        <location filename="../src/mainwindow.cpp" line="438"/>
+        <location filename="../src/mainwindow.cpp" line="376"/>
+        <location filename="../src/mainwindow.cpp" line="467"/>
         <source>Official Website</source>
         <translation type="unfinished">Official Website</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="357"/>
-        <location filename="../src/mainwindow.cpp" line="440"/>
+        <location filename="../src/mainwindow.cpp" line="379"/>
+        <location filename="../src/mainwindow.cpp" line="469"/>
         <source>Exit</source>
         <translation type="unfinished">Exit</translation>
     </message>
@@ -496,22 +509,22 @@ System default cursor restored.</source>
     <message>
         <location filename="../src/ui/messagebox.cpp" line="176"/>
         <source>Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Information</translation>
     </message>
     <message>
         <location filename="../src/ui/messagebox.cpp" line="177"/>
         <source>Warning</source>
-        <translation type="unfinished"></translation>
+        <translation>Warning</translation>
     </message>
     <message>
         <location filename="../src/ui/messagebox.cpp" line="178"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Error</translation>
     </message>
     <message>
         <location filename="../src/ui/messagebox.cpp" line="179"/>
         <source>Question</source>
-        <translation type="unfinished"></translation>
+        <translation>Question</translation>
     </message>
     <message>
         <location filename="../src/ui/messagebox.cpp" line="242"/>
@@ -599,72 +612,71 @@ System default cursor restored.</source>
 <context>
     <name>SettingsPage</name>
     <message>
-        <location filename="../src/ui/settingspage.cpp" line="72"/>
-        <location filename="../src/ui/settingspage.cpp" line="258"/>
+        <location filename="../src/ui/settingspage.cpp" line="77"/>
+        <location filename="../src/ui/settingspage.cpp" line="265"/>
         <source>Start/End Hotkey</source>
         <translation>Start/End Hotkey</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingspage.cpp" line="97"/>
-        <location filename="../src/ui/settingspage.cpp" line="259"/>
+        <location filename="../src/ui/settingspage.cpp" line="104"/>
+        <location filename="../src/ui/settingspage.cpp" line="266"/>
         <source>Hotkey Clean</source>
         <translation>Hotkey Clean</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingspage.cpp" line="113"/>
-        <location filename="../src/ui/settingspage.cpp" line="261"/>
+        <location filename="../src/ui/settingspage.cpp" line="120"/>
+        <location filename="../src/ui/settingspage.cpp" line="267"/>
         <source>Dark Theme</source>
         <translation>Dark Theme</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingspage.cpp" line="138"/>
-        <location filename="../src/ui/settingspage.cpp" line="262"/>
+        <location filename="../src/ui/settingspage.cpp" line="145"/>
+        <location filename="../src/ui/settingspage.cpp" line="268"/>
         <source>Language</source>
         <translation>Language</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingspage.cpp" line="143"/>
-        <location filename="../src/ui/settingspage.cpp" line="271"/>
+        <location filename="../src/ui/settingspage.cpp" line="150"/>
+        <location filename="../src/ui/settingspage.cpp" line="277"/>
         <source>English(United States)</source>
         <translation>English(United States)</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingspage.cpp" line="144"/>
-        <location filename="../src/ui/settingspage.cpp" line="272"/>
+        <location filename="../src/ui/settingspage.cpp" line="151"/>
+        <location filename="../src/ui/settingspage.cpp" line="278"/>
         <source>Chinese(Simplified)</source>
         <translation>中文（简体）</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingspage.cpp" line="145"/>
-        <location filename="../src/ui/settingspage.cpp" line="273"/>
+        <location filename="../src/ui/settingspage.cpp" line="152"/>
+        <location filename="../src/ui/settingspage.cpp" line="279"/>
         <source>Chinese(Traditional)</source>
         <translation>中文（繁體）</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingspage.cpp" line="257"/>
+        <location filename="../src/ui/settingspage.cpp" line="264"/>
         <source>Settings</source>
         <translation type="unfinished">Settings</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingspage.cpp" line="260"/>
         <source>Please set a shortcut hotkey</source>
-        <translation type="unfinished">Please set a shortcut hotkey</translation>
+        <translation type="obsolete">Please set a shortcut hotkey</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingspage.cpp" line="177"/>
-        <location filename="../src/ui/settingspage.cpp" line="263"/>
+        <location filename="../src/ui/settingspage.cpp" line="184"/>
+        <location filename="../src/ui/settingspage.cpp" line="269"/>
         <source>Close Button Behavior</source>
         <translation type="unfinished">Close Button Behavior</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingspage.cpp" line="182"/>
-        <location filename="../src/ui/settingspage.cpp" line="287"/>
+        <location filename="../src/ui/settingspage.cpp" line="189"/>
+        <location filename="../src/ui/settingspage.cpp" line="293"/>
         <source>Minimize to Tray</source>
         <translation type="unfinished">Minimize to Tray</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingspage.cpp" line="183"/>
-        <location filename="../src/ui/settingspage.cpp" line="288"/>
+        <location filename="../src/ui/settingspage.cpp" line="190"/>
+        <location filename="../src/ui/settingspage.cpp" line="294"/>
         <source>Exit Program</source>
         <translation type="unfinished">Exit Program</translation>
     </message>
