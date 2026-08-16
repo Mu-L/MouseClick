@@ -1,4 +1,4 @@
-﻿#include "clickerpage.h"
+#include "clickerpage.h"
 
 #include <QComboBox>
 #include <QDoubleSpinBox>
@@ -224,9 +224,9 @@ ClickerPage::ClickerPage(const QString& title, SettingsPage& settings_page, QWid
                 btn_type = Qt::LeftButton;
             }
 
-            int interval = static_cast<int>(interval_time->value() * 1000);                     // 转为毫秒�?
+            int interval = static_cast<int>(interval_time->value() * 1000);                     // 转为毫秒。
             bool random_interval_flag = random_interval_toggle_btn->isChecked();
-            int max_random_interval = static_cast<int>(random_interval_time->value() * 1000);   // 转为毫秒�?
+            int max_random_interval = static_cast<int>(random_interval_time->value() * 1000);   // 转为毫秒。
 
             PageBase::clicker()->initParameters(btn_type, interval, random_interval_flag, max_random_interval);
             PageBase::clickerThread()->start();   // Note: This should be initiated through a sub-thread.

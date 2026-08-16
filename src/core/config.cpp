@@ -1,4 +1,4 @@
-﻿#include "config.h"
+#include "config.h"
 #include "ui/messagebox.h"
 #include "translation.h"
 #include "logger.h"

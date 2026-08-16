@@ -18,11 +18,11 @@ int main(int argc, char* argv[])
     QApplication app(argc, argv);
     QApplication::setQuitOnLastWindowClosed(false);
 
-    // 自定�?QStyle 接管全局控件渲染（替�?QSS 文件�?
+    // 自定义 QStyle 接管全局控件渲染（替换 QSS 文件）
     app.setStyle(new SepProxyStyle);
     QApplication::setPalette(app.style()->standardPalette());
 
-    // 主题切换 �?全局 repolish
+    // 主题切换 → 全局 repolish
     QObject::connect(&ThemeState::instance(), &ThemeState::themeChanged,
                      &app, []() {
         for (QWidget* w : QApplication::topLevelWidgets()) {

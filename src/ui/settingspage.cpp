@@ -1,4 +1,4 @@
-﻿#include "settingspage.h"
+#include "settingspage.h"
 
 #include <QApplication>
 #include <QBoxLayout>
@@ -155,7 +155,7 @@ SettingsPage::SettingsPage(const QString& title, QWidget* parent)
     // 确定当前的语言
     QString current_language = app_settings.Language();
 
-    // 遍历 QComboBox 项目，找到对应的选项并设置为选中状�?
+    // 遍历 QComboBox 项目，找到对应的选项并设置为选中状态
     for (int i = 0; i < _language_list->count(); ++i) {
         QVariant item_data = _language_list->itemData(i);
         if (item_data.toString() == current_language) {
@@ -190,7 +190,7 @@ SettingsPage::SettingsPage(const QString& title, QWidget* parent)
     _close_button_behavior_list->addItem(tr("Minimize to Tray"), QVariant("minimize"));
     _close_button_behavior_list->addItem(tr("Exit Program"), QVariant("exit"));
 
-    // 确定当前的关闭按钮行�?
+    // 确定当前的关闭按钮行为
     QString current_behavior = app_settings.CloseButtonBehavior();
     for (int i = 0; i < _close_button_behavior_list->count(); ++i) {
         QVariant item_data = _close_button_behavior_list->itemData(i);
@@ -274,7 +274,7 @@ SettingsPage::SettingsPage(const QString& title, QWidget* parent)
         // 判断选择的语言是否和当前语言相同，不同则进行切换
         if (selected_language != app_settings.Language()) {
             app_settings.setLanguage(selected_language);
-            // setLanguage() 内部已触�?translator 热切�?+ currentLanguageChanged 信号
+            // setLanguage() 内部已触发 translator 热切换 + currentLanguageChanged 信号
         }
     });
 
@@ -300,8 +300,8 @@ void SettingsPage::retranslateUi()
     _sound_feedback_toggle_desc->setText(tr("Sound Feedback"));
 
     // 语言选择下拉框需要重建项目（保留当前选中值）
-    // blockSignals 防止 clear/addItem/setCurrentIndex 触发 currentIndexChanged�?
-    // 否则会再次调�?setLanguage() 导致递归
+    // blockSignals 防止 clear/addItem/setCurrentIndex 触发 currentIndexChanged。
+    // 否则会再次调用 setLanguage() 导致递归
     const QVariant currentLang = _language_list->currentData();
     _language_list->blockSignals(true);
     _language_list->clear();

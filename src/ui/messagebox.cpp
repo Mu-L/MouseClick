@@ -1,4 +1,4 @@
-﻿#include "messagebox.h"
+#include "messagebox.h"
 
 #include "theme/themestate.h"
 #include "ui/button.h"

@@ -1,4 +1,4 @@
-﻿#include "cursorpage.h"
+#include "cursorpage.h"
 
 #include "core/config.h"
 #include "ui/button.h"

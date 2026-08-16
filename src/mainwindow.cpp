@@ -101,7 +101,7 @@ MainWindow::MainWindow(QWidget* parent)
 
     setWindowState(app_settings.WindowState());
 
-    // 初始�?ThemeState 并同步到 Config 的主题状�?
+    // 初始化 ThemeState 并同步到 Config 的主题状态
     ThemeState::instance().setDarkMode(app_settings.ThemeMode() == Theme::Dark);
 
     /******************/
@@ -112,18 +112,18 @@ MainWindow::MainWindow(QWidget* parent)
 
     UIWidgetInit();
 
-    // 连点运行时禁用页面内容区（导航栏保持可交互），最小化至系统托�?/ 恢复窗口
+    // 连点运行时禁用页面内容区（导航栏保持可交互），最小化至系统托盘 / 恢复窗口
     connect(_settings_page, &SettingsPage::hotkeyActivated, this, [this]() {
         bool running = PageBase::clickerThread()->isRunning();
         _navigation_pages->setEnabled(!running);
 
         if (running) {
-            // 连点已启动：最小化到系统托�?
+            // 连点已启动：最小化到系统托盘
             _was_maximized_before_tray = isMaximized();
             _was_hidden_before_clicker = !isVisible();
             hide();
         } else {
-            // 连点已停止：仅在启动前为显示状态时才恢复窗�?
+            // 连点已停止：仅在启动前为显示状态时才恢复窗口
             if (!_was_hidden_before_clicker) {
                 if (_was_maximized_before_tray) {
                     showMaximized();
@@ -239,10 +239,10 @@ void MainWindow::UIWidgetInit()
     central_layout->setContentsMargins(QMargins(0, 4, 8, 8));
 
     // ── side-nav：QWidget + QVBoxLayout 替代 QTreeWidget ──
-    // QTreeWidget + setItemWidget() 的行布局管线�?itemWidget 完全封闭�?
-    //   - updateGeometries() 始终�?widget resize �?visualRect �?填满整行
-    //   - �?API 可控�?行内 margin"
-    // QVBoxLayout 直接控制间距，无需对抗任何内部机制�?
+    // QTreeWidget + setItemWidget() 的行布局管线将 itemWidget 完全封闭。
+    //   - updateGeometries() 始终将 widget resize 为 visualRect 并填满整行
+    //   - 无 API 可控制行内 margin"
+    // QVBoxLayout 直接控制间距，无需对抗任何内部机制。
     QWidget* navigation = new QWidget(central_widget);
     navigation->setObjectName(QStringLiteral("side-nav"));
     navigation->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
@@ -252,7 +252,7 @@ void MainWindow::UIWidgetInit()
     nav_layout->setSpacing(4);                        // button 间距保持不变
 
     QButtonGroup* navigation_item_btn_group = new QButtonGroup(navigation);
-    navigation_item_btn_group->setExclusive(true); // 互斥：同一时刻仅一个按�?checked
+    navigation_item_btn_group->setExclusive(true); // 互斥：同一时刻仅一个按钮 checked
 
     const QString mouse_click_page_title = tr("Mouse Click");
     const QString beautify_cursor_page_title = tr("Beautify Cursor");
@@ -270,7 +270,7 @@ void MainWindow::UIWidgetInit()
     _nav_beautify_cursor->setObjectName(QStringLiteral("nav-item-beautify-cursor"));
     _nav_settings->setObjectName(QStringLiteral("nav-item-settings"));
 
-    // 导航图标（基础文件名，不含路径�?-black/-white 后缀�?
+    // 导航图标（基础文件名，不含路径）-black/-white 后缀。
     _nav_mouse_click->setNavIcon(QStringLiteral("mouse-click-item"));
     _nav_beautify_cursor->setNavIcon(QStringLiteral("beautify-cursor-item"));
     _nav_settings->setNavIcon(QStringLiteral("settings-item"));
@@ -287,9 +287,9 @@ void MainWindow::UIWidgetInit()
     // set Default selected
     _nav_mouse_click->setChecked(true);
 
-    // ── nav-page 视觉容器：圆角卡片背�?+ 24px 内边�?──
-    // 外层 QFrame 负责视觉效果，QStackedWidget 仅负责页面切换�?
-    // QFrame::StyledPanel 触发 PE_Frame 渲染路径绘制圆角背景�?
+    // ── nav-page 视觉容器：圆角卡片背景 + 24px 内边距 ──
+    // 外层 QFrame 负责视觉效果，QStackedWidget 仅负责页面切换。
+    // QFrame::StyledPanel 触发 PE_Frame 渲染路径绘制圆角背景。
     QFrame* nav_page_card = new QFrame(central_widget);
     nav_page_card->setObjectName(QStringLiteral("nav-page"));
     nav_page_card->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
@@ -323,10 +323,10 @@ void MainWindow::UIWidgetInit()
     _nav_page_card = nav_page_card;
     _navigation_pages = navigation_pages;
 
-    // 设置独立于全局 palette �?widget 背景�?
+    // 设置独立于全局 palette 的 widget 背景。
     applyBackgroundPalettes();
 
-    // QButtonGroup::idClicked 直接传�?button id �?page index 映射
+    // QButtonGroup::idClicked 直接传递 button id 到 page index 映射
     connect(navigation_item_btn_group, &QButtonGroup::idClicked,
             navigation_pages, &QStackedWidget::setCurrentIndex);
 
@@ -337,15 +337,15 @@ void MainWindow::applyBackgroundPalettes()
 {
     const auto& c = ThemeState::instance().current().colors;
 
-    // side-nav：透明背景，显�?MainWindow 底色�?EEEEF2 / #1F1F1F�?
+    // side-nav：透明背景，显示 MainWindow 底色：#EEEEF2 / #1F1F1F。
     if (_nav_widget) {
         _nav_widget->setAutoFillBackground(false);
     }
 
-    // nav-page 视觉容器：圆角卡片色背景（light=#FFF, dark=#333, radius=8px�?
-    // PE_Frame 绘制圆角矩形背景。autoFillBackground 必须�?false，否则会�?
-    // 纯色矩形填充整个 QFrame，覆盖圆角外�?透明"区域→圆角视觉消失�?
-    // StyledPanel 保证 PE_Frame 一定被触发绘制�?
+    // nav-page 视觉容器：圆角卡片色背景（light=#FFF, dark=#333, radius=8px）
+    // PE_Frame 绘制圆角矩形背景。autoFillBackground 必须为 false，否则会用
+    // 纯色矩形填充整个 QFrame，覆盖圆角外的"透明"区域→圆角视觉消失。
+    // StyledPanel 保证 PE_Frame 一定被触发绘制。
     if (_nav_page_card) {
         _nav_page_card->setFrameShape(QFrame::StyledPanel);
         _nav_page_card->setAutoFillBackground(false);
@@ -391,7 +391,7 @@ void MainWindow::connectInit()
         ThemeState::instance().setDarkMode(mode == Theme::Dark);
     });
 
-    // 主题切换后重新应用独立于全局 palette �?widget 背景�?
+    // 主题切换后重新应用独立于全局 palette 的 widget 背景。
     connect(&ThemeState::instance(), &ThemeState::themeChanged,
             this, &MainWindow::applyBackgroundPalettes);
 
@@ -426,12 +426,12 @@ void MainWindow::closeEvent(QCloseEvent *event)
     }
 
     if (Config::instance().CloseButtonBehavior() == "minimize") {
-        // 最小化至系统托�?
+        // 最小化至系统托盘
         _was_maximized_before_tray = isMaximized();
         hide();
         event->ignore();
     } else {
-        // 正常退�?
+        // 正常退出
         event->accept();
         // 停止连点（如果正在运行）
         if (PageBase::clickerThread()->isRunning()) {
@@ -462,7 +462,7 @@ void MainWindow::setupSystemTray()
     _tray_menu->addSeparator();
     _tray_exit_action = _tray_menu->addAction(tr("Exit"));
 
-    // 托盘图标交互：左�?双击恢复窗口，右键弹出菜�?
+    // 托盘图标交互：左键双击恢复窗口，右键弹出菜单
     connect(_tray_icon, &QSystemTrayIcon::activated, this,
             [this](QSystemTrayIcon::ActivationReason reason) {
         if (reason == QSystemTrayIcon::Trigger ||
@@ -479,7 +479,7 @@ void MainWindow::setupSystemTray()
         }
     });
 
-    // 打开主界�?
+    // 打开主界面
     connect(_tray_open_action, &QAction::triggered, this, [this]() {
         if (_was_maximized_before_tray) {
             showMaximized();
@@ -496,7 +496,7 @@ void MainWindow::setupSystemTray()
             QUrl("https://github.com/SeaEpoch/MouseClick"));
     });
 
-    // 退�?
+    // 退出
     connect(_tray_exit_action, &QAction::triggered, this, [this]() {
         _force_quit = true;
         // 停止连点（如果正在运行）

@@ -23,7 +23,7 @@ protected:
 private:
     Q_DISABLE_COPY_MOVE(ClickerPage)
 
-    // 可翻译控�?
+    // 可翻译控件
     QLabel* _page_title;
     QLabel* _click_type_desc;
     QComboBox* _click_type_list;

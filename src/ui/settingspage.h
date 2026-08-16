@@ -32,7 +32,7 @@ private:
     HotkeyEdit* _hotkey_reader;
     QPushButton* _hotkey_clean;
 
-    // 可翻译控�?
+    // 可翻译控件
     QLabel* _page_title;
     QLabel* _hotkey_desc;
     QLabel* _theme_toggle_desc;
