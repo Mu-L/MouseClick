@@ -40,6 +40,7 @@ private:
     QComboBox* _language_list;
     QLabel* _close_button_behavior_desc;
     QComboBox* _close_button_behavior_list;
+    QLabel* _sound_feedback_toggle_desc;
 
     void retranslateUi();
 };

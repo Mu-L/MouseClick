@@ -19,6 +19,7 @@ namespace QWK
 class QStackedWidget;
 class SettingsPage;
 class QAction;
+class ClickerStatusFeedback;
 
 class MainWindow : public QMainWindow
 {
@@ -47,6 +48,7 @@ private:
 
     // 系统托盘
     QSystemTrayIcon* _tray_icon = nullptr;
+    ClickerStatusFeedback* _status_feedback = nullptr;
     PopupMenu* _tray_menu = nullptr;
     QAction* _tray_open_action = nullptr;
     QAction* _tray_website_action = nullptr;

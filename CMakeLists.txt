@@ -55,6 +55,8 @@ set(PROJECT_SOURCES
         src/core/hotkeyregistrar.h
         src/core/qhotkeyregistrar.h                 src/core/qhotkeyregistrar.cpp
         src/core/hotkeycapturecontroller.h          src/core/hotkeycapturecontroller.cpp
+        src/core/soundplayer.h                      src/core/soundplayer.cpp
+        src/core/clickerstatusfeedback.h            src/core/clickerstatusfeedback.cpp
         src/theme/tokens.h
         src/theme/themestate.h                      src/theme/themestate.cpp
         src/theme/sepproxystyle.h                   src/theme/sepproxystyle.cpp
@@ -104,6 +106,9 @@ target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 # 应用接管窗口系统边框颜色：QApplication::setPalette 会触发 Qt 把 DWM 边框重置为浅色，
 # 需通过 DwmSetWindowAttribute 显式让边框跟随应用主题（见 mainwindow.cpp 的 applyDarkFrameColor）
 target_link_libraries(${PROJECT_NAME} PRIVATE dwmapi)
+
+# 声音反馈：Win32 PlaySound 播放系统提示音
+target_link_libraries(${PROJECT_NAME} PRIVATE winmm)
 
 target_include_directories(${PROJECT_NAME} PRIVATE "${QWINDOWKIT_ROOT}/include/QWindowKit::Widgets")
 target_link_libraries(${PROJECT_NAME} PRIVATE QWindowKit::Widgets)

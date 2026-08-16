@@ -124,6 +124,16 @@ void Config::setCloseButtonBehavior(const QString& behavior)
     _config["CloseButtonBehavior"] = behavior;
 }
 
+bool Config::SoundFeedback() const
+{
+    return _config["SoundFeedback"].toBool();
+}
+
+void Config::setSoundFeedback(bool sound_feedback)
+{
+    _config["SoundFeedback"] = sound_feedback;
+}
+
 Config::Config(QObject *parent)
     : QObject{parent}
 {
@@ -166,6 +176,7 @@ Config::Config(QObject *parent)
     _config["Language"] = settings.value("Language", _DEFAULT_LANGUAGE);
     _config["Hotkey"] = settings.value("Hotkey", _DEFAULT_HOTKEY);
     _config["CloseButtonBehavior"] = settings.value("CloseButtonBehavior", _DEFAULT_CLOSEBUTTONBEHAVIOR);
+    _config["SoundFeedback"] = settings.value("SoundFeedback", _DEFAULT_SOUNDFEEDBACK);
     settings.endGroup();
 
     // 读取 Configuration 配置
@@ -193,6 +204,7 @@ Config::Config(QObject *parent)
     ensureValid("RandomIntervalTime",       _DEFAULT_RANDOMINTERVALTIME);
     ensureValid("EnableMemoryConfiguration", _DEFAULT_MEMORYCONFIGURATION);
     ensureValid("CloseButtonBehavior",     _DEFAULT_CLOSEBUTTONBEHAVIOR);
+    ensureValid("SoundFeedback",            _DEFAULT_SOUNDFEEDBACK);
 
     // 主题的特殊检查
     if (!Theme::isValidThemeMode(_config["ThemeMode"].toInt())) {
@@ -233,6 +245,7 @@ Config::~Config()
     settings.setValue("Language", _config["Language"]);
     settings.setValue("Hotkey", _config["Hotkey"]);
     settings.setValue("CloseButtonBehavior", _config["CloseButtonBehavior"]);
+    settings.setValue("SoundFeedback", _config["SoundFeedback"]);
     settings.endGroup();
 
     settings.beginGroup("Configuration");

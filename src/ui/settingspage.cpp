@@ -34,7 +34,8 @@ SettingsPage::SettingsPage(const QString& title, QWidget* parent)
       _language_switch_desc(nullptr),
       _language_list(nullptr),
       _close_button_behavior_desc(nullptr),
-      _close_button_behavior_list(nullptr)
+      _close_button_behavior_list(nullptr),
+      _sound_feedback_toggle_desc(nullptr)
 {
     Config& app_settings = Config::instance();
 
@@ -205,11 +206,37 @@ SettingsPage::SettingsPage(const QString& title, QWidget* parent)
 
     /********************/
 
+    QWidget* sound_feedback_toggle_content = new QWidget(page_content);
+    sound_feedback_toggle_content->setFixedHeight(pageContentUniformHeight);
+
+    QHBoxLayout* sound_feedback_toggle_layout = new QHBoxLayout(sound_feedback_toggle_content);
+    sound_feedback_toggle_layout->setSpacing(0);
+    sound_feedback_toggle_layout->setContentsMargins(QMargins());
+
+    _sound_feedback_toggle_desc = new QLabel(sound_feedback_toggle_content);
+    _sound_feedback_toggle_desc->setObjectName(QStringLiteral("sound-feedback-toggle-desc"));
+    _sound_feedback_toggle_desc->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    _sound_feedback_toggle_desc->setFocusPolicy(Qt::NoFocus);
+    _sound_feedback_toggle_desc->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    _sound_feedback_toggle_desc->setText(tr("Sound Feedback"));
+
+    QRadioButton* sound_feedback_toggle_btn = new QRadioButton(sound_feedback_toggle_content);
+    sound_feedback_toggle_btn->setObjectName(QStringLiteral("sound-feedback-toggle-btn"));
+    sound_feedback_toggle_btn->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    sound_feedback_toggle_btn->setChecked(app_settings.SoundFeedback());
+
+    sound_feedback_toggle_layout->addWidget(_sound_feedback_toggle_desc);
+    sound_feedback_toggle_layout->addWidget(sound_feedback_toggle_btn);
+    sound_feedback_toggle_content->setLayout(sound_feedback_toggle_layout);
+
+    /********************/
+
     page_content_layout->addWidget(hotkey_content);
     page_content_layout->addWidget(_hotkey_clean);
     page_content_layout->addWidget(theme_toggle_content);
     page_content_layout->addWidget(language_switch_content);
     page_content_layout->addWidget(close_btn_behavior_content);
+    page_content_layout->addWidget(sound_feedback_toggle_content);
     page_content_layout->addStretch();
 
     central_layout->addWidget(_page_title);
@@ -255,6 +282,9 @@ SettingsPage::SettingsPage(const QString& title, QWidget* parent)
         Config::instance().setCloseButtonBehavior(
             _close_button_behavior_list->itemData(index).toString());
     });
+
+    connect(sound_feedback_toggle_btn, &QRadioButton::toggled,
+            &Config::instance(), &Config::setSoundFeedback);
 }
 
 SettingsPage::~SettingsPage() = default;
@@ -267,6 +297,7 @@ void SettingsPage::retranslateUi()
     _theme_toggle_desc->setText(tr("Dark Theme"));
     _language_switch_desc->setText(tr("Language"));
     _close_button_behavior_desc->setText(tr("Close Button Behavior"));
+    _sound_feedback_toggle_desc->setText(tr("Sound Feedback"));
 
     // 语言选择下拉框需要重建项目（保留当前选中值）
     // blockSignals 防止 clear/addItem/setCurrentIndex 触发 currentIndexChanged�?

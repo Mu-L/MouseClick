@@ -171,9 +171,25 @@ System default cursor restored.</source>
     </message>
 </context>
 <context>
+    <name>ClickerStatusFeedback</name>
+    <message>
+        <location filename="../src/core/clickerstatusfeedback.cpp" line="17"/>
+        <location filename="../src/core/clickerstatusfeedback.cpp" line="28"/>
+        <location filename="../src/core/clickerstatusfeedback.cpp" line="44"/>
+        <source>MouseClick</source>
+        <translation>MouseClick</translation>
+    </message>
+    <message>
+        <location filename="../src/core/clickerstatusfeedback.cpp" line="27"/>
+        <location filename="../src/core/clickerstatusfeedback.cpp" line="43"/>
+        <source>MouseClick — Clicker Running</source>
+        <translation>MouseClick — 連點運行中</translation>
+    </message>
+</context>
+<context>
     <name>Config</name>
     <message>
-        <location filename="../src/core/config.cpp" line="135"/>
+        <location filename="../src/core/config.cpp" line="145"/>
         <source>WARNING</source>
         <translation type="unfinished">警告</translation>
     </message>
@@ -182,7 +198,7 @@ System default cursor restored.</source>
         <translation type="obsolete">配置檔「condig.ini」未找到。程式可能已被修改。建議重新安裝程式，這可能解決此問題。</translation>
     </message>
     <message>
-        <location filename="../src/core/config.cpp" line="136"/>
+        <location filename="../src/core/config.cpp" line="146"/>
         <source>The configuration file &apos;config.ini&apos; was not found.
 The program may have been modified.
 It is recommended to reinstall the program,
@@ -193,12 +209,12 @@ which may resolve this issue.</source>
 這可能解決此問題。</translation>
     </message>
     <message>
-        <location filename="../src/core/config.cpp" line="141"/>
+        <location filename="../src/core/config.cpp" line="151"/>
         <source>Ignore</source>
         <translation type="unfinished">忽略</translation>
     </message>
     <message>
-        <location filename="../src/core/config.cpp" line="142"/>
+        <location filename="../src/core/config.cpp" line="152"/>
         <source>Reinstall</source>
         <translation type="unfinished">重新安裝</translation>
     </message>
@@ -442,58 +458,52 @@ System default cursor restored.</source>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="110"/>
-        <location filename="../src/mainwindow.cpp" line="126"/>
-        <location filename="../src/mainwindow.cpp" line="144"/>
-        <location filename="../src/mainwindow.cpp" line="366"/>
-        <location filename="../src/mainwindow.cpp" line="382"/>
-        <location filename="../src/mainwindow.cpp" line="461"/>
+        <location filename="../src/mainwindow.cpp" line="111"/>
+        <location filename="../src/mainwindow.cpp" line="358"/>
         <source>MouseClick</source>
         <translation>滑鼠連點器</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="265"/>
-        <location filename="../src/mainwindow.cpp" line="367"/>
+        <location filename="../src/mainwindow.cpp" line="257"/>
+        <location filename="../src/mainwindow.cpp" line="359"/>
         <source>Mouse Click</source>
         <translation>滑鼠連點</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="266"/>
-        <location filename="../src/mainwindow.cpp" line="368"/>
+        <location filename="../src/mainwindow.cpp" line="258"/>
+        <location filename="../src/mainwindow.cpp" line="360"/>
         <source>Beautify Cursor</source>
         <translation>美化游標</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="267"/>
-        <location filename="../src/mainwindow.cpp" line="369"/>
+        <location filename="../src/mainwindow.cpp" line="259"/>
+        <location filename="../src/mainwindow.cpp" line="361"/>
         <source>Settings</source>
         <translation>軟體設置</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="127"/>
         <source>Clicker started</source>
-        <translation type="unfinished">連點已啟動</translation>
+        <translation type="obsolete">連點已啟動</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="145"/>
         <source>Clicker stopped</source>
-        <translation type="unfinished">連點已結束</translation>
+        <translation type="obsolete">連點已結束</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="373"/>
-        <location filename="../src/mainwindow.cpp" line="465"/>
+        <location filename="../src/mainwindow.cpp" line="365"/>
+        <location filename="../src/mainwindow.cpp" line="459"/>
         <source>Open Main Interface</source>
         <translation type="unfinished">打開主介面</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="376"/>
-        <location filename="../src/mainwindow.cpp" line="467"/>
+        <location filename="../src/mainwindow.cpp" line="368"/>
+        <location filename="../src/mainwindow.cpp" line="461"/>
         <source>Official Website</source>
         <translation type="unfinished">官網</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="379"/>
-        <location filename="../src/mainwindow.cpp" line="469"/>
+        <location filename="../src/mainwindow.cpp" line="371"/>
+        <location filename="../src/mainwindow.cpp" line="463"/>
         <source>Exit</source>
         <translation type="unfinished">退出</translation>
     </message>
@@ -612,49 +622,49 @@ System default cursor restored.</source>
 <context>
     <name>SettingsPage</name>
     <message>
-        <location filename="../src/ui/settingspage.cpp" line="77"/>
-        <location filename="../src/ui/settingspage.cpp" line="265"/>
+        <location filename="../src/ui/settingspage.cpp" line="78"/>
+        <location filename="../src/ui/settingspage.cpp" line="295"/>
         <source>Start/End Hotkey</source>
         <translation>「開始/結束」快捷鍵</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingspage.cpp" line="104"/>
-        <location filename="../src/ui/settingspage.cpp" line="266"/>
+        <location filename="../src/ui/settingspage.cpp" line="105"/>
+        <location filename="../src/ui/settingspage.cpp" line="296"/>
         <source>Hotkey Clean</source>
         <translation>清除快速鍵</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingspage.cpp" line="120"/>
-        <location filename="../src/ui/settingspage.cpp" line="267"/>
+        <location filename="../src/ui/settingspage.cpp" line="121"/>
+        <location filename="../src/ui/settingspage.cpp" line="297"/>
         <source>Dark Theme</source>
         <translation>深色模式</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingspage.cpp" line="145"/>
-        <location filename="../src/ui/settingspage.cpp" line="268"/>
+        <location filename="../src/ui/settingspage.cpp" line="146"/>
+        <location filename="../src/ui/settingspage.cpp" line="298"/>
         <source>Language</source>
         <translation>語言設定</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingspage.cpp" line="150"/>
-        <location filename="../src/ui/settingspage.cpp" line="277"/>
+        <location filename="../src/ui/settingspage.cpp" line="151"/>
+        <location filename="../src/ui/settingspage.cpp" line="308"/>
         <source>English(United States)</source>
         <translation>English(United States)</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingspage.cpp" line="151"/>
-        <location filename="../src/ui/settingspage.cpp" line="278"/>
+        <location filename="../src/ui/settingspage.cpp" line="152"/>
+        <location filename="../src/ui/settingspage.cpp" line="309"/>
         <source>Chinese(Simplified)</source>
         <translation>中文（简体）</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingspage.cpp" line="152"/>
-        <location filename="../src/ui/settingspage.cpp" line="279"/>
+        <location filename="../src/ui/settingspage.cpp" line="153"/>
+        <location filename="../src/ui/settingspage.cpp" line="310"/>
         <source>Chinese(Traditional)</source>
         <translation>中文（繁體）</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingspage.cpp" line="264"/>
+        <location filename="../src/ui/settingspage.cpp" line="294"/>
         <source>Settings</source>
         <translation type="unfinished">軟體設置</translation>
     </message>
@@ -663,22 +673,28 @@ System default cursor restored.</source>
         <translation type="obsolete">請設定一個快捷鍵</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingspage.cpp" line="184"/>
-        <location filename="../src/ui/settingspage.cpp" line="269"/>
+        <location filename="../src/ui/settingspage.cpp" line="185"/>
+        <location filename="../src/ui/settingspage.cpp" line="299"/>
         <source>Close Button Behavior</source>
         <translation type="unfinished">關閉按鈕行為</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingspage.cpp" line="189"/>
-        <location filename="../src/ui/settingspage.cpp" line="293"/>
+        <location filename="../src/ui/settingspage.cpp" line="190"/>
+        <location filename="../src/ui/settingspage.cpp" line="324"/>
         <source>Minimize to Tray</source>
         <translation type="unfinished">最小化至系統匣</translation>
     </message>
     <message>
-        <location filename="../src/ui/settingspage.cpp" line="190"/>
-        <location filename="../src/ui/settingspage.cpp" line="294"/>
+        <location filename="../src/ui/settingspage.cpp" line="191"/>
+        <location filename="../src/ui/settingspage.cpp" line="325"/>
         <source>Exit Program</source>
         <translation type="unfinished">退出程式</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/settingspage.cpp" line="221"/>
+        <location filename="../src/ui/settingspage.cpp" line="300"/>
+        <source>Sound Feedback</source>
+        <translation>聲音提示</translation>
     </message>
 </context>
 </TS>

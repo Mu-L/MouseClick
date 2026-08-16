@@ -31,6 +31,7 @@
 #include "ui/clickerpage.h"
 #include "ui/settingspage.h"
 #include "core/config.h"
+#include "core/clickerstatusfeedback.h"
 #include "ui/button.h"
 #include "ui/popupmenu.h"
 #include "theme/themestate.h"
@@ -121,13 +122,6 @@ MainWindow::MainWindow(QWidget* parent)
             _was_maximized_before_tray = isMaximized();
             _was_hidden_before_clicker = !isVisible();
             hide();
-            if (_tray_icon) {
-                _tray_icon->showMessage(
-                    tr("MouseClick"),
-                    tr("Clicker started"),
-                    QSystemTrayIcon::Information,
-                    3000);
-            }
         } else {
             // 连点已停止：仅在启动前为显示状态时才恢复窗�?
             if (!_was_hidden_before_clicker) {
@@ -139,13 +133,11 @@ MainWindow::MainWindow(QWidget* parent)
                 raise();
                 activateWindow();
             }
-            if (_tray_icon) {
-                _tray_icon->showMessage(
-                    tr("MouseClick"),
-                    tr("Clicker stopped"),
-                    QSystemTrayIcon::Information,
-                    3000);
-            }
+        }
+
+        // 托盘图标 + tooltip + 声音 三路状态反馈（替代系统通知）
+        if (_status_feedback) {
+            _status_feedback->setRunning(running);
         }
     });
 
@@ -378,8 +370,8 @@ void MainWindow::retranslateUi()
     if (_tray_exit_action) {
         _tray_exit_action->setText(tr("Exit"));
     }
-    if (_tray_icon) {
-        _tray_icon->setToolTip(tr("MouseClick"));
+    if (_status_feedback) {
+        _status_feedback->retranslate();
     }
 }
 
@@ -458,7 +450,9 @@ void MainWindow::setupSystemTray()
     }
 
     _tray_icon = new QSystemTrayIcon(QIcon(":/svg/favicon.svg"), this);
-    _tray_icon->setToolTip(tr("MouseClick"));
+
+    // 状态反馈：统一管理托盘图标 / tooltip / 声音，取代系统通知
+    _status_feedback = new ClickerStatusFeedback(_tray_icon, this);
 
     _tray_menu = new PopupMenu(this);
 

@@ -43,6 +43,9 @@ public:
     QString CloseButtonBehavior() const;
     void setCloseButtonBehavior(const QString& behavior);
 
+    bool SoundFeedback() const;
+    void setSoundFeedback(bool sound_feedback);
+
 signals:
     void currentThemeChanged(Theme::ThemeMode current_theme);
     void currentLanguageChanged(const QString current_language);
@@ -71,6 +74,7 @@ private:
     const double _DEFAULT_RANDOMINTERVALTIME = 0.02;
     const bool _DEFAULT_MEMORYCONFIGURATION = false;
     const QString _DEFAULT_CLOSEBUTTONBEHAVIOR = "exit";
+    const bool _DEFAULT_SOUNDFEEDBACK = true;
 };
 
 #endif // CONFIG_H
