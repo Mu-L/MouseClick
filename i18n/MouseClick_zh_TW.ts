@@ -511,33 +511,33 @@ System default cursor restored.</source>
 <context>
     <name>MessageBox</name>
     <message>
-        <location filename="../src/ui/messagebox.cpp" line="142"/>
-        <location filename="../src/ui/messagebox.cpp" line="182"/>
+        <location filename="../src/ui/messagebox.cpp" line="188"/>
+        <location filename="../src/ui/messagebox.cpp" line="228"/>
         <source>MouseClick</source>
         <translation type="unfinished">滑鼠連點器</translation>
     </message>
     <message>
-        <location filename="../src/ui/messagebox.cpp" line="176"/>
+        <location filename="../src/ui/messagebox.cpp" line="222"/>
         <source>Information</source>
         <translation>資訊</translation>
     </message>
     <message>
-        <location filename="../src/ui/messagebox.cpp" line="177"/>
+        <location filename="../src/ui/messagebox.cpp" line="223"/>
         <source>Warning</source>
         <translation>警告</translation>
     </message>
     <message>
-        <location filename="../src/ui/messagebox.cpp" line="178"/>
+        <location filename="../src/ui/messagebox.cpp" line="224"/>
         <source>Error</source>
         <translation>錯誤</translation>
     </message>
     <message>
-        <location filename="../src/ui/messagebox.cpp" line="179"/>
+        <location filename="../src/ui/messagebox.cpp" line="225"/>
         <source>Question</source>
         <translation>詢問</translation>
     </message>
     <message>
-        <location filename="../src/ui/messagebox.cpp" line="242"/>
+        <location filename="../src/ui/messagebox.cpp" line="288"/>
         <source>OK</source>
         <translation type="unfinished">好的</translation>
     </message>

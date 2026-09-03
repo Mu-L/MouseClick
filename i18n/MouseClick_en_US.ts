@@ -511,33 +511,33 @@ System default cursor restored.</translation>
 <context>
     <name>MessageBox</name>
     <message>
-        <location filename="../src/ui/messagebox.cpp" line="142"/>
-        <location filename="../src/ui/messagebox.cpp" line="182"/>
+        <location filename="../src/ui/messagebox.cpp" line="188"/>
+        <location filename="../src/ui/messagebox.cpp" line="228"/>
         <source>MouseClick</source>
         <translation type="unfinished">MouseClick</translation>
     </message>
     <message>
-        <location filename="../src/ui/messagebox.cpp" line="176"/>
+        <location filename="../src/ui/messagebox.cpp" line="222"/>
         <source>Information</source>
         <translation>Information</translation>
     </message>
     <message>
-        <location filename="../src/ui/messagebox.cpp" line="177"/>
+        <location filename="../src/ui/messagebox.cpp" line="223"/>
         <source>Warning</source>
         <translation>Warning</translation>
     </message>
     <message>
-        <location filename="../src/ui/messagebox.cpp" line="178"/>
+        <location filename="../src/ui/messagebox.cpp" line="224"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="../src/ui/messagebox.cpp" line="179"/>
+        <location filename="../src/ui/messagebox.cpp" line="225"/>
         <source>Question</source>
         <translation>Question</translation>
     </message>
     <message>
-        <location filename="../src/ui/messagebox.cpp" line="242"/>
+        <location filename="../src/ui/messagebox.cpp" line="288"/>
         <source>OK</source>
         <translation type="unfinished">OK</translation>
     </message>

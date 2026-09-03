@@ -1,6 +1,6 @@
-﻿cmake_minimum_required(VERSION 3.9)
+cmake_minimum_required(VERSION 3.9)
 
-project(MouseClick VERSION 3.0.1 LANGUAGES CXX)
+project(MouseClick VERSION 3.1.2 LANGUAGES CXX)
 
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)

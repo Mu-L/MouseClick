@@ -39,6 +39,52 @@ private:
     QColor _color;
 };
 
+// ============================================================================
+// DescenderSafeLabel — 带「下伸安全区」的文本标签
+//
+// 【为什么要设计这个子类】
+// MessageBox 的标题/正文（例如 "Cursor 'X' applied successfully."）最后一行常含
+// 带下伸笔画的拉丁字母（g / p / q / y / j）。实测这些字符的下半截会被裁掉，根因：
+//
+//   QLabel 的 sizeHint() 高度 = 行数 × (ascent + descent)，底部没有任何留白；
+//   而字形在抗锯齿渲染时，其下伸笔画会延伸到声明的 descent 边界。于是最后一行
+//   的下伸尾巴正好压在 QLabel 的绘制裁剪边界上被裁掉（100% DPI 下底部余量恰为
+//   0px，肉眼可见 y/g/p/q 的下半截缺失；150% 下因行高向上取整多出约 1px 空隙而
+//   被掩盖，不易察觉）。
+//
+// 【为什么必须重写 sizeHint()，而不是 setMargin()/setContentsMargins()】
+//   由 Qt 源码（qlabel.cpp）可知：
+//     sizeHint() = 文本高 + 2×margin + contentsMargins
+//     绘制裁剪区  = documentRect() = contentsRect() − 2×margin
+//   两者相消，裁剪区恒等于文本自然高度。因此 setMargin()/setContentsMargins()
+//   只会让控件"整体变高"，却无法加高裁剪区，下伸照样被切。能加高裁剪区的唯一
+//   干净入口，就是让 sizeHint() 直接变大——这正是本类所做的事。
+//
+// 【效果】
+//   在自然高度上额外加 kDescenderSafeArea 像素，把绘制裁剪边界下移，为下伸笔画
+//   预留空间。该做法与字体、DPI 缩放均无关，稳健通用。
+// ============================================================================
+class DescenderSafeLabel : public QLabel
+{
+public:
+    explicit DescenderSafeLabel(QWidget* parent = nullptr)
+        : QLabel(parent)
+    {}
+
+    /// 返回「文本自然高度 + 底部安全区」，把绘制裁剪边界下移，避免下伸被裁。
+    QSize sizeHint() const override
+    {
+        QSize hint = QLabel::sizeHint();        // 先取基类（文本自然）尺寸
+        hint.rheight() += kDescenderSafeArea;   // 高度追加底部安全区
+        return hint;
+    }
+
+private:
+    // 底部安全区高度（像素）。实测下伸抗锯齿尾巴约需 1px，取 4px 留有富余。
+    // 注：QLabel 默认竖直居中，4px 会被上下各分 2px，等效底部约 2px，足够。
+    static constexpr int kDescenderSafeArea = 4;
+};
+
 } // namespace
 
 MessageBox::MessageBox(QWidget* parent)
@@ -61,12 +107,12 @@ MessageBox::MessageBox(QWidget* parent)
     auto* text_column = new QVBoxLayout;
     text_column->setSpacing(8);
 
-    _text_label = new QLabel(this);
+    _text_label = new DescenderSafeLabel(this);
     _text_label->setWordWrap(false);   // 不自动换行：文字严格按开发者写的 \n 显示
     _text_label->setTextInteractionFlags(Qt::TextSelectableByMouse);
     text_column->addWidget(_text_label);
 
-    _informative_label = new QLabel(this);
+    _informative_label = new DescenderSafeLabel(this);
     _informative_label->setWordWrap(false);   // 不自动换行：文字严格按开发者写的 \n 显示
     _informative_label->setTextInteractionFlags(Qt::TextSelectableByMouse);
     _informative_label->hide();   // 默认无正文，setInformativeText 有内容时再显示

@@ -3,7 +3,7 @@
 ; Non-commercial use only
 
 #define MyAppName "MouseClick"
-#define MyAppVersion "3.0.1"
+#define MyAppVersion "3.1.2"
 #define MyAppPublisher "SeaEpoch"
 #define MyAppURL "https://github.com/SeaEpoch/MouseClick"
 #define MyAppExeName "MouseClick.exe"

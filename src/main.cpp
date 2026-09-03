@@ -31,11 +31,10 @@ int main(int argc, char* argv[])
         QApplication::setPalette(QApplication::style()->standardPalette());
     });
 
-    Translation::instance().init();
-    Config& app_settings = Config::instance();
-    Translation::instance().switchLanguage(app_settings.Language());
-
-    // 设置字体：加载内嵌微软雅黑字体集（常规 msyh / 粗体 msyhbd / 细体 msyhl）
+    // 设置字体：加载内嵌微软雅黑字体集（常规 msyh / 粗体 msyhbd / 细体 msyhl）。
+    // 必须放在 Config::instance() 之前——Config 构造时若 config.ini 缺失会弹出一个
+    // MessageBox，若字体尚未设置，该弹窗会退回系统默认字体（"Microsoft YaHei UI" 9pt）
+    // 而非项目指定的 12pt 微软雅黑。
     const int font_id = QFontDatabase::addApplicationFont(
         QStringLiteral(":/fonts/Microsoft YaHei/msyh.ttc"));
     QFontDatabase::addApplicationFont(QStringLiteral(":/fonts/Microsoft YaHei/msyhbd.ttc"));
@@ -51,6 +50,10 @@ int main(int argc, char* argv[])
             app.setFont(font);
         }
     }
+
+    Translation::instance().init();
+    Config& app_settings = Config::instance();
+    Translation::instance().switchLanguage(app_settings.Language());
 
     MainWindow window;
     window.show();
