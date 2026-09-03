@@ -104,10 +104,6 @@ assets
    ![Qt CMD](docs/SeaEpoch_2024-10-22_09-51-39.jpg)
 3. 执行命令 `windeployqt.exe ./MouseClick.exe`，等待命令执行完毕即可完成打包。
 
-## Star History
-
-[![Star History Chart](https://api.star-history.com/chart?repos=SeaEpoch/MouseClick&type=timeline&legend=top-left&sealed_token=ooA3TbEiAJnjx_pUl0OhEv25D8MvG8xH4Hu6XGUmcXcW05xUku7FJo5WbspXk2I9GFcfD0jrbuTN3acc53vAGRRP1Eko4h_cJlcJ_aVN2xRXN9ggLtlx7itUReireomKJHelFCMYnRsHhrkPZu0NmvQOoqzkJ1FZaO2bXaFy62DUA-uFRI42JlYdV-2M)](https://www.star-history.com/?repos=SeaEpoch%2FMouseClick&type=timeline&legend=top-left)
-
 ## 📄 开源证书
 
 MouseClick（本项目）遵守 [GPL-3.0 license](https://github.com/SeaEpoch/MouseClick?tab=GPL-3.0-1-ov-file) 开源证书。
